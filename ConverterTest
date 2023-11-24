@@ -1,0 +1,44 @@
+using NUnit.Framework;
+
+[TestFixture]
+public class ConverterTests
+{
+    [Test]
+    // Тестирование случаев, когда x >= 100.7
+    public void TestGreaterThanOrEqualTo100_7()
+    {
+        Assert.AreEqual(1000, Converter.Do(120.0f));  // Ожидается 1000
+        Assert.AreEqual(1000, Converter.Do(100.8f));  // Ожидается 1000
+    }
+
+    [Test]
+    // Тестирование случаев, когда 0 < x < 100.7
+    public void TestBetween0And100_7()
+    {
+        Assert.AreEqual(84, Converter.Do(84.3f));  // Ожидается 84 (целая часть)
+        Assert.AreEqual(42, Converter.Do(42.9f));  // Ожидается 42 (целая часть)
+    }
+
+    [Test]
+    // Тестирование случая, когда x = 0
+    public void TestEqualsZero()
+    {
+        Assert.Throws<ArgumentException>(() => Converter.Do(0.0f));  // Ожидается ArgumentException
+    }
+
+    [Test]
+    // Тестирование случаев, когда -30.5 <= x < 0
+    public void TestBetweenMinus30_5AndZero()
+    {
+        Assert.AreEqual(-20, Converter.Do(-20.7f));  // Ожидается -20 (целая часть - 5)
+        Assert.AreEqual(-30, Converter.Do(-30.0f));  // Ожидается -30 (целая часть - 5)
+    }
+
+    [Test]
+    // Тестирование случаев, когда x <= -30.4
+    public void TestLessThanOrEqualToMinus30_4()
+    {
+        Assert.AreEqual(-2000, Converter.Do(-30.4f));  // Ожидается -2000
+        Assert.AreEqual(-2000, Converter.Do(-80.0f));  // Ожидается -2000
+    }
+}
